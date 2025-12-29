@@ -1,0 +1,35 @@
+{
+  "name": "mysterymessage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.2",
+    "bcryptjs": "^3.0.3",
+    "mongoose": "^9.0.2",
+    "next": "16.1.1",
+    "next-auth": "^4.24.13",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-email": "^5.1.0",
+    "resend": "^6.6.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.0.16"
+  }
+}
