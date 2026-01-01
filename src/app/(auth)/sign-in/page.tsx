@@ -3,18 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDebounceValue } from "usehooks-ts";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signUpSchema } from "@/schemas/signUpSchema";
-import axios, { AxiosError } from "axios";
-
-import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,104 +17,57 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { signInSchema } from "@/schemas/signInSchema";
+import { signIn } from "next-auth/react";
 
 const Page = () => {
-  const [username, setUsername] = useState("");
-  const [useranmeMessage, setUsernameMessage] = useState("");
-  const [isChheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const debouncedUsername = useDebounceValue(username, 300);
   const router = useRouter();
 
-  //zod implementation
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      username: "",
-      email: "",
+      identifier: "",
       password: "",
     },
   });
 
-  useEffect(() => {
-    const checkUsernameUnique = async () => {
-      if (debouncedUsername) {
-        setIsCheckingUsername(true);
-        setUsernameMessage("");
-        try {
-          const response = await axios.get(
-            `/api/check-username-unique?username=${debouncedUsername}`
-          );
-          setUsernameMessage(response.data.message);
-        } catch (error) {
-          const axiosError = error as AxiosError<ApiResponse>;
-          setUsernameMessage(
-            axiosError.response?.data.message ?? "Error checking username"
-          );
-        } finally {
-          setIsCheckingUsername(false);
-        }
+  const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    const result = await signIn("credentials", {
+      redirect: false,
+      identifier: data.identifier,
+      password: data.password,
+    });
+    if (result?.error) {
+      if (result.error == "CredentialsSignin") {
+        toast.error("Incorrect username or password");
+      } else {
+        toast.error(result.error);
       }
-    };
-    checkUsernameUnique();
-  }, [debouncedUsername]);
-
-  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    setIsSubmitting(true);
-    try {
-      const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      toast.success(response.data.message);
-      router.replace(`/verify/${username}`);
-      setIsSubmitting(false);
-    } catch (error) {
-      console.error("Error in sign up of user", error);
-      const axiosError = error as AxiosError<ApiResponse>;
-      const errorMessage = axiosError.response?.data.message;
-      toast.error(errorMessage);
-      setIsSubmitting(false);
+    }
+    if (result?.url) {
+      router.replace("/dashboard");
     }
   };
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+          <h1 className="text-5xl font-bold tracking-tight lg:text-5xl mb-6">
             Join Mystery Message
           </h1>
-          <p className="mb-4">Sign up to start your anonymous adventure</p>
+          <p className="mb-4">Login to start your anonymous adventure</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
+              name="identifier"
               control={form.control}
-              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email/Username</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Username"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setUsername(e.target.value);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
+                    <Input type="" placeholder="Email/Username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,7 +94,7 @@ const Page = () => {
                   Please wait
                 </>
               ) : (
-                "Signup"
+                "Login"
               )}
             </Button>
           </form>
@@ -155,12 +102,9 @@ const Page = () => {
 
         <div className="text-center mt-4">
           <p>
-            Already a member?{" "}
-            <Link
-              href="/sign-in"
-              className="text-blue-600 hove: text-blue-800"
-            >
-              Sign in
+            Don't have an account?{" "}
+            <Link href="/sign-up" className="text-blue-600 hover: text-blue-800">
+              Sign Up
             </Link>
           </p>
         </div>
