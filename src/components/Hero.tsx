@@ -29,7 +29,7 @@ const Hero = () => {
           style={{ animationDelay: "0.3s" }}
         >
           <Link href="/sign-up">
-            <Button size="lg" className="px-8 font-medium group">
+            <Button size="lg" className="w-full sm:w-auto px-8 font-medium group">
               Get Started
               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
