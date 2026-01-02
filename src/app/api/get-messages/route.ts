@@ -5,40 +5,50 @@ import UserModel from "@/model/User";
 import { User } from "next-auth";
 import mongoose from "mongoose";
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
+  
   if (!session || !session.user) {
     return Response.json(
       { success: false, message: "Unauthorized" },
       { status: 401 }
     );
   }
+  
   const userId = new mongoose.Types.ObjectId(user._id);
+  
   try {
-    const user = await UserModel.aggregate([
+    // FIXED: Use aggregation with preserveNullAndEmptyArrays for users with no messages
+    const userMessages = await UserModel.aggregate([
       { $match: { _id: userId } },
-      { $unwind: "$messages" },
-      { $sort: { "$messages.createdAt": -1 } },
+      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } },
+      { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-    if (!user || user.length === 0) {
+    
+    if (!userMessages || userMessages.length === 0) {
       return Response.json(
         { success: false, message: "User not Found" },
         { status: 404 }
       );
     }
 
+    // Filter out null/undefined messages (when user has no messages)
+    const messages = userMessages[0].messages.filter(
+      (msg: any) => msg && msg._id
+    );
+
     return Response.json(
-      { success: true, message: user[0].messages },
+      { success: true, messages: messages },
       { status: 200 }
     );
   } catch (error) {
-    console.log("Unexpected Error occured", error)
+    console.log("Unexpected Error occurred", error);
     return Response.json(
       { success: false, message: "Error finding User" },
-      { status: 400 }
+      { status: 500 }
     );
   }
 }

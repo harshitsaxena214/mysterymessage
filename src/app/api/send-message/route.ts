@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         }
       );
     }
-    if (user.isAcceptingMessage) {
+    if (!user.isAcceptingMessage) {
       return Response.json(
         {
           success: false,
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
         message: "Message sent successfully",
       },
       {
-        status: 404,
+        status: 200,
       }
     );
   } catch (error) {
