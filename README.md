@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🕵️‍♂️ Mystery Message — Anonymous Messaging Platform
 
-## Getting Started
+A full-stack web application that allows users to receive **anonymous messages** through a unique, shareable link.  
+Built using **Next.js**, **Tailwind CSS**, and **shadcn/ui**, the platform focuses on privacy, security, and clean user experience.
 
-First, run the development server:
+Users sign up with a **unique username**, verify their account via a **verification code**, and then receive anonymous messages on their personal dashboard — with the sender’s identity always hidden.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Live Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 **https://mysterymessage-delta.vercel.app/**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Features
 
-To learn more about Next.js, take a look at the following resources:
+- 🔐 **Custom authentication + NextAuth**
+- ✉️ Email verification using **one-time verification code**
+- 🧑‍💻 **Unique usernames** for each user
+- 🔗 Personal shareable message link
+- 🕵️ Receive **100% anonymous messages**
+- 📬 Dashboard to view received messages
+- 🎨 Clean, modern UI
+- 🧩 Reusable components with **shadcn/ui**
+- 📱 Fully responsive design
+- ⚡ Fast performance with Next.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠 Tech Stack
 
-## Deploy on Vercel
+### Frontend
+- **Framework:** Next.js
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Language:** TypeScript / JavaScript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Backend
+- **Authentication:** Custom Auth + NextAuth
+- **API Routes:** Next.js App Router
+- **Database:** MongoDB
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Deployment
+- **Platform:** Vercel
+
+---
+
+## 🔐 Authentication Flow
+
+1. User signs up with a **unique username & email**
+2. A **verification code** is sent to the user’s email
+3. User verifies the account using the code
+4. User gains access to the **dashboard**
+5. A unique link is generated for receiving anonymous messages
+
+---
+
+## 🎯 Project Purpose
+
+This project was built to:
+
+- Demonstrate full-stack development skills
+- Implement custom authentication with NextAuth
+- Handle email verification securely
+- Design privacy-focused systems
+- Build real-world dashboard functionality
+- Showcase clean UI with shadcn/ui
+- Practice secure, scalable app architecture
+
+---
