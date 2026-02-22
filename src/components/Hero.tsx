@@ -12,7 +12,7 @@ const fadeBadge = {
     y: 0,
     transition: {
       duration: 1.2,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   },
 };
@@ -25,7 +25,7 @@ const fadeUp = {
     transition: {
       duration: 1.2,
       delay,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.16, 1, 0.3, 1] as const,
     },
   }),
 };
