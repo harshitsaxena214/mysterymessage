@@ -14,19 +14,18 @@ const Hero = () => {
         </div>
         <h1
           className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-[1.1] animate-in fade-in slide-in-from-bottom-2 duration-700"
-          style={{ animationDelay: "0.1s" }}
         >
           Dive into the World of Anonymous Messages
         </h1>
         <p
           className="mt-5 text-lg md:text-xl text-muted-foreground max-w-lg mx-auto animate-in fade-in slide-in-from-bottom-2 duration-700"
-          style={{ animationDelay: "0.2s" }}
+         
         >
           Mystery Message — Where your identity remains a secret.
         </p>
         <div
           className="mt-8 flex flex-col sm:flex-row gap-3 justify-center animate-in fade-in slide-in-from-bottom-2 duration-700"
-          style={{ animationDelay: "0.3s" }}
+         
         >
           <Link href="/sign-up">
             <Button size="lg" className="w-full sm:w-auto px-8 font-medium group">
